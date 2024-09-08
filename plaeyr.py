@@ -25,8 +25,9 @@ class Player(pg.sprite.Sprite):
         self.spisok_prisest_l = []
         self.spisok_attaka_r = []
         self.spisok_attaka_l = []
+        self.igra = igra
 
-        self.magic_ball_r = load_image("images/earth monk/magicball.png", 100, 200)
+        self.magic_ball_r = load_image("images/" + self.igra.mag_pic + "/magicball.png", 100, 200)
         self.magic_ball_l = pg.transform.flip(self.magic_ball_r, True, False)
         self.spisok_magic_ball = []
 
@@ -35,8 +36,8 @@ class Player(pg.sprite.Sprite):
         self.attaka = False
         self.vremia_attacka = 0
 
-        self.image = load_image("images/earth monk/idle1.png", 300, 450)
         self.igra = igra
+        self.image = load_image("images/" + self.igra.mag_pic + "/idle1.png", 300, 450)
 
         self.rect = self.image.get_rect()
         self.rect.center = (170, SCREEN_HEIGHT // 2)
@@ -50,7 +51,6 @@ class Player(pg.sprite.Sprite):
             pg.draw.rect(self.igra.screen, [255, 0, 0], [self.rect.x+35, self.rect.y+5, self.zarad, 20])
         pg.draw.rect(self.igra.screen, [255, 0, 0], [70, 480, 200, 30], 5)
         pg.draw.rect(self.igra.screen,[255, 0, 0], [70, 480, self.zdorovie, 30])
-        pg.draw.rect(self.igra.screen, [0, 0, 0], self.hitbox, 5)
         for m_b in self.spisok_magic_ball:
             m_b.draw()
 
@@ -76,7 +76,7 @@ class Player(pg.sprite.Sprite):
             self.zarad = self.zarad+1
             if self.zarad == 240:
                 magic_ball_pic = self.magic_ball_r if self.napravlenie == 1 else self.magic_ball_l
-                m_b = magic_ball.Magicball(magic_ball_pic, self.rect.x + 215, self.rect.y + 95, self.napravlenie*5, self.igra, self.zarad // 3)
+                m_b = magic_ball.Magicball(magic_ball_pic, self.rect.x + 215, self.rect.y + 95, self.napravlenie*10, self.igra, self.zarad // 3)
                 self.spisok_magic_ball.append(m_b)
                 self.spisok_animatoin = self.spisok_attaka_r if self.napravlenie == 1 else self.spisok_attaka_l
                 self.vremia_attacka = pg.time.get_ticks()
@@ -84,7 +84,7 @@ class Player(pg.sprite.Sprite):
                 self.zarad = 0
         elif mish[0] is False and self.zarad >= 40:
             magic_ball_pic = self.magic_ball_r if self.napravlenie == 1 else self.magic_ball_l
-            m_b = magic_ball.Magicball(magic_ball_pic, self.rect.x + 215, self.rect.y + 95, self.napravlenie*5, self.igra, self.zarad // 3)
+            m_b = magic_ball.Magicball(magic_ball_pic, self.rect.x + 215, self.rect.y + 95, self.napravlenie*10, self.igra, self.zarad // 3)
             self.spisok_magic_ball.append(m_b)
             self.attaka = True
             self.spisok_animatoin = self.spisok_attaka_r if self.napravlenie == 1 else self.spisok_attaka_l
@@ -111,35 +111,35 @@ class Player(pg.sprite.Sprite):
 
     def upload(self):
         for a in range(1, 4):
-            r = load_image("images/earth monk/idle" + str(a) + ".png", 300, 450)
+            r = load_image("images/" + self.igra.mag_pic + "/idle" + str(a) + ".png", 300, 450)
             for b in range(1, 20):
                 self.spisok_dixanie_r.append(r)
             l = pg.transform.flip(r, True, False)
             for c in range(1, 20):
                 self.spisok_dixanie_l.append(l)
         for b in range(1, 5):
-            r = load_image("images/earth monk/move" + str(b) + ".png", 300, 450)
+            r = load_image("images/" + self.igra.mag_pic + "/move" + str(b) + ".png", 300, 450)
             for n in range (1, 10):
                 self.spisok_xodit_r.append(r)
             l = pg.transform.flip(r, True, False)
             for m in range (1, 10):
                 self.spisok_xodit_l.append(l)
         for b in range(1):
-            r = load_image("images/earth monk/down" + ".png", 300, 450)
+            r = load_image("images/" + self.igra.mag_pic + "/down" + ".png", 300, 450)
             for n in range (1, 10):
                 self.spisok_prisest_r.append(r)
             l = pg.transform.flip(r, True, False)
             for m in range (1, 10):
                 self.spisok_prisest_l.append(l)
         for b in range(1):
-            r = load_image("images/earth monk/charge" + ".png", 300, 450)
+            r = load_image("images/" + self.igra.mag_pic + "/charge" + ".png", 300, 450)
             for n in range (1, 10):
                 self.spisok_zarad_r.append(r)
             l = pg.transform.flip(r, True, False)
             for m in range (1, 10):
                 self.spisok_zarad_l.append(l)
         for b in range(1):
-            r = load_image("images/earth monk/attack" + ".png", 300, 450)
+            r = load_image("images/" + self.igra.mag_pic + "/attack" + ".png", 300, 450)
             for n in range (1, 10):
                 self.spisok_attaka_r.append(r)
             l = pg.transform.flip(r, True, False)

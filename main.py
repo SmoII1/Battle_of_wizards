@@ -10,7 +10,7 @@ shrift = pygame.freetype.Font("shrift.otf", 25)
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, rezim, mag, mag2):
 
         # Создание окна
         self.screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -18,15 +18,36 @@ class Game:
 
         self.background = load_image("images/background.png", SCREEN_WIDTH, SCREEN_HEIGHT)
 
+        self.mag = mag
+        self.mag2 = mag2
+
+        if self.mag == 1:
+            self.mag_pic = "fire wizard"
+        elif self.mag == 2:
+            self.mag_pic = "lightning wizard"
+        elif self.mag == 3:
+            self.mag_pic = "earth monk"
+
+        if self.mag2 == 1:
+            self.mag_pic2 = "fire wizard"
+        elif self.mag2 == 2:
+            self.mag_pic2 = "lightning wizard"
+        elif self.mag2 == 3:
+            self.mag_pic2 = "earth monk"
+
         self.player_1 = plaeyr.Player(self)
-        self.bot = player_2.Player_2(self)
+        if rezim == 2:
+            self.bot = bot.Bot(self)
+        else:
+            self.bot = player_2.Player_2(self)
         self.clock = pg.time.Clock()
         self.run()
 
     def run(self):
         while True:
             self.event()
-            self.update()
+            if self.player_1.zdorovie > 0 and self.bot.zdorovie > 0:
+                self.update()
             self.draw()
             self.clock.tick(FPS)
 
@@ -55,12 +76,9 @@ class Game:
         self.bot.draw()
 
         if self.player_1.zdorovie <= 0:
-            shrift.render_to(self.screen, [0, 0], "Победил правый игрок", [255, 0, 0])
+            shrift.render_to(self.screen, [320, 250], "Победил правый игрок", [255, 0, 0])
+
         elif self.bot.zdorovie <= 0:
-            shrift.render_to(self.screen, [0, 0], "Победил левый игрок", [255, 0, 0])
+            shrift.render_to(self.screen, [320, 250], "Победил левый игрок", [255, 0, 0])
 
         pg.display.flip()
-
-
-if __name__ == "__main__":
-    Game()
